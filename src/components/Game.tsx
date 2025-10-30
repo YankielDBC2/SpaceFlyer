@@ -23,7 +23,7 @@ const Game: React.FC<GameProps> = ({ player, onGameOver }) => {
     width: 40,
     height: 50,
     velocity: 0,
-    gravity: 0.1,
+    gravity: 0.12,
     jump: -6,
   });
 
@@ -70,7 +70,7 @@ const Game: React.FC<GameProps> = ({ player, onGameOver }) => {
     coinImgRef.current = coin;
   }, []);
 
-  const drawRocket = useCallback((ctx: CanvasRenderingContext2D, rocket: Rocket, frameCount: number) => {
+  const drawRocket = useCallback((ctx: CanvasRenderingContext2D, rocket: Rocket) => {
     ctx.save();
 
     // Seleccionar imagen según la velocidad
@@ -83,7 +83,7 @@ const Game: React.FC<GameProps> = ({ player, onGameOver }) => {
     ctx.restore();
   }, []);
 
-  const drawCoin = useCallback((ctx: CanvasRenderingContext2D, coin: Coin, frameCount: number) => {
+  const drawCoin = useCallback((ctx: CanvasRenderingContext2D, coin: Coin) => {
     ctx.save();
 
     const coinImg = coinImgRef.current;
@@ -167,7 +167,7 @@ const Game: React.FC<GameProps> = ({ player, onGameOver }) => {
     rocket.velocity += rocket.gravity;
     rocket.y += rocket.velocity;
 
-    drawRocket(ctx, rocket, gameState.frameCount);
+    drawRocket(ctx, rocket);
 
     const newFrameCount = gameState.frameCount + 1;
 
@@ -188,7 +188,7 @@ const Game: React.FC<GameProps> = ({ player, onGameOver }) => {
 
       if (!coin.collected) {
         coin.x -= 2.5;
-        drawCoin(ctx, coin, newFrameCount);
+        drawCoin(ctx, coin);
 
         const rocketCenterX = rocket.x + rocket.width / 2;
         const rocketCenterY = rocket.y + rocket.height / 2;
